@@ -6,8 +6,8 @@
 
 struct GameState {
 
-	int matrix[Globals::WIDTH][Globals::HEIGHT];
-	//std::vector<int> incomingGarbage;
+	//int matrix[Globals::WIDTH][Globals::HEIGHT];
+	std::vector<std::vector<int>> matrix{ Globals::WIDTH, std::vector<int>(Globals::HEIGHT, -1) };
 
 	int hold;
 	bool canHold;

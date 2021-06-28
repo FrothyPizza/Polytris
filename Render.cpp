@@ -4,33 +4,43 @@
 
 
 void setColor(sf::RectangleShape& rect, int tileIndex) {
+	bool fast = true;
 
-	int index = tileIndex;
-	std::vector<int> digits;
-	if (index == 0) digits.push_back(0);
-	while (index > 0) {
-		int digit = index % 10;
-		index /= 10;
-		digits.push_back(digit);
-	}
-	int r, g, b;
-	if (digits.size() >= 3) {
-		r = digits[0] * 25;
-		g = digits[1] * 25;
-		b = digits[2] * 25;
-	}
-	else if (digits.size() == 2) {
-		r = digits[0] * 25;
-		g = digits[1] * 25;
-		b = tileIndex*2;
+	if (fast) {
+		rect.setFillColor(sf::Color{ 
+			sf::Uint8(tileIndex % 5 * 51 + 30), 
+			sf::Uint8(tileIndex % 7 * 30 + 10),
+			sf::Uint8(tileIndex % 3 * 90 - 30)}
+		);
 	}
 	else {
-		r = digits[0] * 12;
-		g = (tileIndex % 3) * 20;
-		b = (tileIndex % 2 + 1) * tileIndex*5;
-	}
+		int index = tileIndex;
+		std::vector<int> digits;
+		if (index == 0) digits.push_back(0);
+		while (index > 0) {
+			int digit = index % 10;
+			index /= 10;
+			digits.push_back(digit);
+		}
+		int r, g, b;
+		if (digits.size() >= 3) {
+			r = digits[0] * 25;
+			g = digits[1] * 25;
+			b = digits[2] * 25;
+		}
+		else if (digits.size() == 2) {
+			r = digits[0] * 25;
+			g = digits[1] * 25;
+			b = tileIndex * 2;
+		}
+		else {
+			r = digits[0] * 12;
+			g = (tileIndex % 3) * 20;
+			b = (tileIndex % 2 + 1) * tileIndex * 5;
+		}
 
-	rect.setFillColor(sf::Color(255-r, 255-g, 255-b));
+		rect.setFillColor(sf::Color(255 - r, 255 - g, 255 - b));
+	}
 
 }
 
@@ -41,8 +51,8 @@ void renderPolytris(sf::RenderWindow* window, sf::Vector2f position, float tileS
 
 	tile.setSize(sf::Vector2f(tileSize, tileSize));
 
+
 	// Draw matrix
-	// don't render the top two tiles
 	for (int i = 0; i < Globals::WIDTH; ++i) {
 		for (int j = 0; j < Globals::HEIGHT; ++j) {
 			if (gameState.matrix[i][j] > -1) {
@@ -52,6 +62,7 @@ void renderPolytris(sf::RenderWindow* window, sf::Vector2f position, float tileS
 			}
 		}
 	}
+
 
 
 	// Draw lines of the matrix

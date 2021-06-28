@@ -14,9 +14,11 @@ bool operator==(const GameState& state1, const GameState& state2) {
 GameState::GameState() :
 	hold{ -1 },
 	canHold{ true } {
-	memset(matrix, -1, sizeof(int)* Globals::WIDTH * Globals::HEIGHT);
+
+	//memset(matrix, -1, sizeof(int)* Globals::WIDTH * Globals::HEIGHT);
 
 }
+
 
 
 // returns whether it could and also performs the hold
@@ -232,9 +234,10 @@ bool GameState::wallKick(Polyomino& mino, int dir) {
 
 	std::vector<Point> kicks;
 	for (int i = -4; i < 4; ++i) 
-		for (int j = -4; j < 2; ++j) 
+		for (int j = -4; j < 4; ++j) 
 			kicks.push_back({ i, j });
 
+	// sort them so it tries the smallest movements first
 	for (size_t i = 0; i < kicks.size(); ++i)
 		for (size_t j = i; j < kicks.size(); ++j)
 			if (abs(kicks[i].x) + abs(kicks[i].y) > abs(kicks[j].x) + abs(kicks[j].y)) {
